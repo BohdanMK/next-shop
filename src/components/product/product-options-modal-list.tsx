@@ -1,13 +1,15 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import type { IProductDTO } from "@/types/dto/product.dto"
+import type { IProductDTO, ProductOptionGroupDTO, ProductOptionValueDTO } from "@/types/dto/product.dto"
 import { cn } from "@/lib/utils"
 
-interface IProductOptionsCheckboxProps {
-  product: IProductDTO
+interface IProductOptionsModalListProps {
+  product: IProductDTO,
+  scrollable?: boolean
+  onSelectionChange: (options: ProductOptionValueDTO[]) => void
 }
 
 const optionLabelClass = cn(
@@ -16,39 +18,53 @@ const optionLabelClass = cn(
   "hover:bg-secondary/80 hover:border-primary hover:text-foreground",
 )
 
-const Extras = ({ product }: IProductOptionsCheckboxProps) => {
-  const [selectedMultiple, setSelectedMultiple] = React.useState<string[]>([])
-  const [selectedSingle, setSelectedSingle] = React.useState<Record<string, string>>({})
+const ProductOptionsModalList = ({ product, onSelectionChange, scrollable = true }: IProductOptionsModalListProps) => {
+  const [selectedOptions, setSelectedOptions] = useState<ProductOptionValueDTO[]>([])
 
-  const toggle = (id: string) => {
-    setSelectedMultiple((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    )
+  const update = (next: ProductOptionValueDTO[]) => {
+    setSelectedOptions(next)
+    onSelectionChange(next)
+  }
+
+  const toggle = (value: ProductOptionValueDTO) => {
+    const isSelected = selectedOptions.some((o) => o.id === value.id)
+    update(isSelected ? selectedOptions.filter((o) => o.id !== value.id) : [...selectedOptions, value])
+  }
+
+  const selectSingle = (group: ProductOptionGroupDTO, valueId: string) => {
+    const groupValueIds = group.values.map((v) => v.id)
+    const value = group.values.find((v) => v.id === valueId)!
+    update([...selectedOptions.filter((o) => !groupValueIds.includes(o.id)), value])
   }
 
   if (!product?.optionGroups) return null
 
   return (
     <div className="space-y-3">
-      <div className="max-h-[300px] flex flex-col gap-4 overflow-y-auto custom-scrollbar">
-        {product.optionGroups.map((item) => {
-          if (item.type !== "single") {
+      <div
+        className={cn(
+            "w-full",
+            scrollable && " max-h-[300px] flex flex-col gap-4 overflow-y-auto custom-scrollbar"
+          )}
+        >
+        {product.optionGroups.map((group) => {
+          if (group.type !== "single") {
             return (
-              <div key={item.id} className="flex flex-col gap-2">
-                <h3>{item.name}:</h3>
-                {item.values.map((value) => (
+              <div key={group.id} className="flex flex-col gap-3 mt-2">
+                <h3>{group.name}:</h3>
+                {group.values.map((value) => (
                   <div key={value.id}>
                     <Checkbox
                       id={value.id}
-                      checked={selectedMultiple.includes(value.id)}
-                      onCheckedChange={() => toggle(value.id)}
+                      checked={selectedOptions.some((o) => o.id === value.id)}
+                      onCheckedChange={() => toggle(value)}
                       className="sr-only hidden"
                     />
                     <label
                       htmlFor={value.id}
                       className={cn(
                         optionLabelClass,
-                        selectedMultiple.includes(value.id) && "border border-primary"
+                        selectedOptions.some((o) => o.id === value.id) && "border border-primary"
                       )}
                     >
                       <span>{value.label}</span>
@@ -61,25 +77,25 @@ const Extras = ({ product }: IProductOptionsCheckboxProps) => {
               </div>
             )
           } else {
+            const selectedInGroup = selectedOptions.find((o) =>
+              group.values.some((v) => v.id === o.id)
+            )
             return (
               <RadioGroup
-                key={item.id}
-                value={selectedSingle[item.id] ?? ""}
-                onValueChange={(val) =>
-                  setSelectedSingle((prev) => ({ ...prev, [item.id]: val }))
-                }
-
+                key={group.id}
+                value={selectedInGroup?.id ?? ""}
+                onValueChange={(val) => selectSingle(group, val)}
               >
-                <div className="flex  flex-col gap-2 mb-3">
-                  <h3 className="me-4">{item.name}:</h3>
-                  {item.values.map((value) => (
+                <div className="flex flex-col gap-2 mb-3 mt-3">
+                  <h3 className="me-4">{group.name}:</h3>
+                  {group.values.map((value) => (
                     <div key={value.id}>
                       <RadioGroupItem id={value.id} value={value.id} className="sr-only hidden" />
                       <label
                         htmlFor={value.id}
                         className={cn(
                           optionLabelClass,
-                          selectedSingle[item.id] === value.id && "border border-primary"
+                          selectedInGroup?.id === value.id && "border border-primary"
                         )}
                       >
                         <span>{value.label}</span>
@@ -99,4 +115,4 @@ const Extras = ({ product }: IProductOptionsCheckboxProps) => {
   )
 }
 
-export default Extras
+export default ProductOptionsModalList

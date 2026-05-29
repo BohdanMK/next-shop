@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 
 interface BreadCrumbsListProps {
-  list: Array<{ name: string, href: string }>
+  list: Array<{ name: string, href?: string }>
 }
 
 const BreadCrumbsList = ({ list }: BreadCrumbsListProps) => {
@@ -18,7 +18,10 @@ const BreadCrumbsList = ({ list }: BreadCrumbsListProps) => {
         {list.map((item, index) => (
           <Fragment key={index}>
             <BreadcrumbItem className="text-foreground">
-              <BreadcrumbLink href={item.href} className="hover:!text-primary">{item.name}</BreadcrumbLink>
+              {item.href
+                ? <BreadcrumbLink href={item.href} className="hover:!text-primary">{item.name}</BreadcrumbLink>
+                : <span>{item.name}</span>
+              }
             </BreadcrumbItem>
             {index < list.length - 1 && <BreadcrumbSeparator className="text-foreground" />}
           </Fragment>

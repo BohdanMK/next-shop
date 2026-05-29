@@ -1,13 +1,16 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { X } from "lucide-react"
 import { getImageUrl } from "@/lib/get-image-url"
-import type { IProductDTO } from "@/types/dto/product.dto"
+import type { IProductDTO, ProductOptionValueDTO } from "@/types/dto/product.dto"
 import { Dialog, DialogContent, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
-import Extras from "@/components/product/product-options-modal-list"
+import PriductOptionsModalList from "@/components/product/product-options-modal-list"
+import CloseBtn from "@/components/shared/close-btn"
+import { useAddToCart } from "@/hooks/mutations/use-add-to-cart"
 
 interface ProductOptionsModalProps {
   open: boolean
@@ -20,6 +23,19 @@ export default function ProductOptionsModal({
   onClose,
   product,
 }: ProductOptionsModalProps) {
+  const [selectedOptions, setSelectedOptions] = useState<ProductOptionValueDTO[]>([])
+  const totalPrice = product.price.amount + selectedOptions.reduce((sum, o) => sum + (o.extraPrice?.amount ?? 0), 0)
+
+  const { mutate: addToCart, isPending } = useAddToCart()
+
+  const handleAddToCart = () => {
+    addToCart({
+      productId: product._id ?? product.id!,
+      quantity: 1,
+      selectedOptions: selectedOptions.map(({ id, label, extraPrice }) => ({ id, label, extraPrice })),
+    })
+  }
+
   return (
     <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose() }}>
       <DialogContent
@@ -35,14 +51,8 @@ export default function ProductOptionsModal({
             fill
             className="object-cover"
           />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="absolute top-3 end-3 size-8 bg-card hover:bg-card/80 border-y-0 border-x border-x-primary rounded-[5px]"
-          >
-            <X className="size-5" />
-          </Button>
+          <CloseBtn onClose={onClose} />
+
         </div>
 
         {/* Title with tooltip on truncate */}
@@ -78,19 +88,19 @@ export default function ProductOptionsModal({
         </div>
         {/* Options */}
         <div className="w-full px-3">
-            <Extras product={product} />
+            <PriductOptionsModalList product={product} onSelectionChange={setSelectedOptions} />
         </div>
         <DialogFooter>
             <div className="w-full flex justify-between items-center px-3 pb-5 py-2">
 
                 <div>
-                    <span className="text-[20px] font-bold">{product.price.amount} </span>
+                    <span className="text-[20px] font-bold">{totalPrice} </span>
                     <span className="font-medium text-[12px]">
                         {product.price.currency}
                     </span>
                 </div>
-                <Button variant="outline" onClick={() => console.log('click')}>
-                    Додати до кошика
+                <Button variant="outline" onClick={handleAddToCart} disabled={isPending}>
+                    {isPending ? "Додається..." : "Додати до кошика"}
                 </Button>
             </div>
           </DialogFooter>

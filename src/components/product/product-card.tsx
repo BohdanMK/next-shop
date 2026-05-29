@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { InfoIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -10,25 +11,27 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/lib/get-image-url"
+import { getProductUrl } from "@/lib/get-product-url"
 import type { IProductDTO  } from "@/types/dto/product.dto"
 import ProductOptionsModal from "@/components/product/product-options-modal"
+import { useAddToCart } from "@/hooks/mutations/use-add-to-cart"
 
 interface ProductCardProps {
   product: IProductDTO
   fullWidth?: boolean
-  onAddToCart?: (optionGroups: IProductDTO ['optionGroups']) => void
 }
 
-const ProductCard = ({ product, fullWidth, onAddToCart }: ProductCardProps) => {
+const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
 
   const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false)
   const currency = product.price.currency === 'UAH' ? 'грн' : product.price.currency
+  const { mutate: addToCart } = useAddToCart()
 
-  const afterClickAddToCart = (product: IProductDTO, ) => {
+  const handleAddToCart = () => {
     if (product?.optionGroups && product.optionGroups.length > 0) {
       setIsOptionsModalOpen(true)
     } else {
-      onAddToCart?.(product.optionGroups)
+      addToCart({ productId: product._id ?? product.id!, quantity: 1, selectedOptions: [] })
     }
   }
 
@@ -37,30 +40,34 @@ const ProductCard = ({ product, fullWidth, onAddToCart }: ProductCardProps) => {
       "w-full max-w-[305px] bg-card rounded-[5px] overflow-hidden shadow-md/10 mb-2",
       fullWidth && "max-w-full !h-full"
     )}>
-      <div className={cn(
-        "w-full max-w-[305px] max-h-[203px]",
-        fullWidth && "max-w-full overflow-hidden"
-      )}>
-        <Image
-          src={getImageUrl(product.image.src)}
-          alt={product.image.alt ?? product.title}
-          width={305}
-          height={203}
-          className="w-full"
-          unoptimized
-        />
-      </div>
+      <Link href={getProductUrl(product)}>
+        <div className={cn(
+          "w-full max-w-[305px] max-h-[203px]",
+          fullWidth && "max-w-full overflow-hidden"
+        )}>
+          <Image
+            src={getImageUrl(product.image.src)}
+            alt={product.image.alt ?? product.title}
+            width={305}
+            height={203}
+            className="w-full"
+            unoptimized
+          />
+        </div>
+      </Link>
 
       <div className="mt-[5px] mx-[11px] pb-[15px]">
         <div className="mb-[20px]">
              <Tooltip>
                 <TooltipTrigger>
-                  <h4
-                    title={product.title}
-                    className="line-clamp-1 text-[16px] font-black text-left cursor-pointer"
-                  >
-                    {product.title}
-                  </h4>
+                  <Link href={getProductUrl(product)}>
+                    <h4
+                      title={product.title}
+                      className="line-clamp-1 text-[16px] font-black text-left cursor-pointer"
+                    >
+                      {product.title}
+                    </h4>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="bg-popover text-white rounded-md p-2 text-center">
                   {product.title}
@@ -111,7 +118,7 @@ const ProductCard = ({ product, fullWidth, onAddToCart }: ProductCardProps) => {
         <div className="flex justify-between px-[0px] items-end">
           <Button
             className="rounded-[12px] text-[14px] px-[26px] py-[4px]"
-            onClick={() => afterClickAddToCart?.(product)}
+            onClick={handleAddToCart}
           >
             {product.ctaLabel ?? 'До кошика'}
           </Button>
@@ -122,7 +129,7 @@ const ProductCard = ({ product, fullWidth, onAddToCart }: ProductCardProps) => {
             onClose={() => setIsOptionsModalOpen(false)}
             product={product}
             />
-            
+
           {!product.isOnSale ? (
             <div className="min-h-[48px] flex items-center gap-[5px] text-[20px] font-bold">
               {product.price.amount}

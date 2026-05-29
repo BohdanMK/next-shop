@@ -1,14 +1,17 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer"
+import CloseBtn from "@/components/shared/close-btn"
+import CartItem from "@/components/cart/cart-item"
+import { useCart } from "@/hooks/queries/use-cart"
 
 interface CartDrawerProps {
   open?: boolean
@@ -16,46 +19,62 @@ interface CartDrawerProps {
 }
 
 const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
-  return (
-    <Drawer
-        direction="right"
-        open={open}
-        onClose={onClose}
-        >
+  const { data: cart } = useCart()
 
-      <DrawerContent
-        className="!rounded-none"
-      >
-        <DrawerHeader>
-          <DrawerTitle>Move Goal</DrawerTitle>
-          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+  return (
+    <Drawer direction="right" open={open} onClose={onClose}>
+      <DrawerContent className="rounded-none!">
+        <DrawerHeader className="flex justify-between items-center relative border-b border-border">
+          <DrawerTitle className="text-2xl text-primary-foreground">Кошик</DrawerTitle>
+          {onClose && (
+            <DrawerClose asChild>
+              <CloseBtn onClose={onClose} />
+            </DrawerClose>
+          )}
         </DrawerHeader>
-        <div className="no-scrollbar overflow-y-auto px-4">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <p
-              key={index}
-              className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-          ))}
+
+        <div className="no-scrollbar overflow-y-auto px-4 py-4">
+          {!cart?.items?.length ? (
+            <p className="text-2xl text-center text-foreground py-8">Кошик порожній</p>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {cart.items.map((item) => (
+                <CartItem key={item._id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+
+        <DrawerFooter className="border-t border-border">
+          <div className="text-[16px]">
+            <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
+              <div>Сума</div>
+              <div>{cart?.totalPrice ?? 0} грн</div>
+            </div>
+            <div className="flex justify-between items-end border-b border-dashed pb-2 mb-2">
+              <div>
+                <span>Доставка</span>
+                <span className="max-w-[150px] block text-foreground text-[12px]">
+                  До безкоштовної доставки залишилось 0 грн
+                </span>
+              </div>
+              <div>100 грн</div>
+            </div>
+            <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
+              <div>Разом</div>
+              <div>{cart ? cart.totalPrice + 100 : 0} грн</div>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
+          >
+            Оформити замовлення
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
 }
 
-
-export default CartDrawer;
+export default CartDrawer

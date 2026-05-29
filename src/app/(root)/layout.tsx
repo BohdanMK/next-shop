@@ -7,6 +7,7 @@ import { fetchCategories } from "@/services/category.service"
 import { fetchCompanyInfo } from "@/services/company.service"
 import { CATEGORIES_QUERY_KEY } from "@/hooks/queries/use-categories"
 import { COMPANY_INFO_QUERY_KEY } from "@/hooks/queries/use-company";
+import { Toaster } from "@/components/ui/sonner"
 
 const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient()
@@ -37,6 +38,7 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
         </main>
         <Footer />
       </div>
+      <Toaster  position="top-right" />
     </HydrationBoundary>
   )
 }

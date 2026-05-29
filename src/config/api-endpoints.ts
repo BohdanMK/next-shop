@@ -9,4 +9,11 @@ export const API_ENDPOINTS = {
   products: {
     list: "/api/products",
   },
+  cart: {
+    list: "/api/cart",
+    addItem: "/api/cart/add",
+    increase: "/api/cart/item/increase",
+    decrease: "/api/cart/item/decrease",
+    deleteItem: "/api/cart/item/delete",
+  },
 } as const
