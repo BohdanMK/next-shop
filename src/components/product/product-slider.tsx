@@ -42,10 +42,10 @@ const ProductSlider = ({ products, onAddToCart, showAllHref, blockTitle }: Produ
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-center text-2xl font-bold text-white">{blockTitle}</h2>
+        <h2 className="text-center text-2xl font-bold text-foreground">{blockTitle}</h2>
         {showAllHref && (
           <Button
-            className="text-white rounded-full px-4 py-2 font-normal hover:bg-primary border-primary border-2"
+            className="text-foreground rounded-full px-4 py-2 font-normal hover:bg-primary hover:text-primary-foreground border-primary border-2"
             variant="outline"
             asChild
           >

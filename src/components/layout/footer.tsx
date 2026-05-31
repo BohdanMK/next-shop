@@ -10,7 +10,7 @@ const Footer = async () => {
     const t = await getTranslations('footer')
 
     return (
-            <footer className=" text-white py-5">
+            <footer className="text-foreground py-5">
                 <div className="container mx-auto">
                     <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-5">
                         <div className="flex flex-col gap-4">

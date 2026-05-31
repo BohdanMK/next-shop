@@ -215,7 +215,7 @@ const CheckOutForm = () => {
                                     id="birthday-checkbox"
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
-                                    className="bg-white cursor-pointer!"
+                                    className="bg-background cursor-pointer!"
                                 />
                             )}
                         />
@@ -295,7 +295,7 @@ const CheckOutForm = () => {
                                         id="agree-policy"
                                         checked={field.value}
                                         onCheckedChange={field.onChange}
-                                        className="bg-white cursor-pointer!"
+                                        className="bg-background cursor-pointer!"
                                     />
                                 )}
                             />

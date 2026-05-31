@@ -12,8 +12,8 @@ const NavigationLink = ({ href, isActive, children }: INavProps) => {
         <Link
             href={href}
             className={cn(
-                "hover:text-gray-300 transition-colors duration-200",
-                isActive && "text-white font-medium"
+                "hover:text-primary transition-colors duration-200",
+                isActive && "text-primary font-medium"
             )}
         >
             {children}

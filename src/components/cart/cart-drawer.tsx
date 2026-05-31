@@ -31,7 +31,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
     <Drawer direction="right" open={open} onClose={onClose}>
       <DrawerContent className="rounded-none!">
         <DrawerHeader className="flex justify-between items-center relative border-b border-border">
-          <DrawerTitle className="text-2xl text-primary-foreground">{t('title')}</DrawerTitle>
+          <DrawerTitle className="text-2xl text-foreground">{t('title')}</DrawerTitle>
           {onClose && (
             <DrawerClose asChild>
               <CloseBtn onClose={onClose} />
@@ -73,7 +73,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
           </div>
             <Link href={ROUTES.checkout}>
               <Button
-          
+
                 variant="outline"
                 className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
               >

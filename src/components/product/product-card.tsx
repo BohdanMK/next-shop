@@ -71,7 +71,7 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
                     </h4>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent className="bg-popover text-white rounded-md p-2 text-center">
+                <TooltipContent className="bg-popover text-popover-foreground rounded-md p-2 text-center">
                   {product.title}
                 </TooltipContent>
              </Tooltip>
@@ -90,7 +90,7 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
                     <TooltipTrigger>
                         <InfoIcon className="w-4 h-4" />
                     </TooltipTrigger>
-                    <TooltipContent className="bg-popover text-white rounded-md p-2 text-center">
+                    <TooltipContent className="bg-popover text-popover-foreground rounded-md p-2 text-center">
                         {product.components!.map((comp, idx) => (
                         <li key={`${product.id ?? product.title}-comp-${idx}`} className="w-[55px]">
                             <div className="w-[55px] h-[38px]">

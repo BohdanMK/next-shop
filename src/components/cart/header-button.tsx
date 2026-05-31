@@ -27,7 +27,7 @@ const CartButton = ({ count, className }: ICartButtonProps) => {
                     variant="ghost" size="icon"
                     onClick={handleOpen}
                 >
-                    <img src="/icons/shopping-basket.svg" alt="Cart" />
+                    <img src="/icons/shopping-basket.svg" alt="Cart" className="invert dark:invert-0" />
 
                 </Button>
                 {count > 0 && (

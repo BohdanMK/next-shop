@@ -54,7 +54,7 @@ const ProductPageContent = ({ productId }: IProductPageContentProps) => {
                 {/** Product description */}
                 {(product.components?.length ?? 0) > 0 && (
                     <>
-                        <ul className="flex text-white rounded-md  text-center">
+                        <ul className="flex text-foreground rounded-md  text-center">
                             {product.components!.map((comp, idx) => (
                                 <li key={`${product.id ?? product.title}-comp-${idx}`} className="w-[55px]">
                                     <div className="w-[55px] h-[38px]">

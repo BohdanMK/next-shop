@@ -27,7 +27,7 @@ const CartItem = ({ item }: CartItemProps) => {
         </div>
         <Button
           variant="text"
-          className="absolute top-[0px] right-[0px] w-[28px] h-[28px] bg-card hover:bg-primary hover:text-gray-50 border-y-0 border-x border-x-primary rounded-[5px]"
+          className="absolute top-[0px] right-[0px] w-[28px] h-[28px] bg-card hover:bg-primary hover:text-primary-foreground border-y-0 border-x border-x-primary rounded-[5px]"
           onClick={() => deleteCartItem({ id: item._id as string })}
         >
           <X className="size-5" />

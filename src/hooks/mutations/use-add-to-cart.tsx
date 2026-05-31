@@ -24,7 +24,7 @@ export function useAddToCart() {
                 alt={addedItem.image.alt ?? addedItem.title}
                 className="size-10 rounded object-cover"
               />
-              <span className="text-sm text-white">{addedItem.title} додано в кошик</span>
+              <span className="text-sm text-foreground">{addedItem.title} додано в кошик</span>
             </div>
           ),
         })

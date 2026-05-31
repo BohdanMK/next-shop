@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { useHeaderHeight } from "@/hooks/use-header-height"
 import NavigationList from "@/components/navigations/navigations-list";
@@ -19,7 +19,7 @@ const Header = () => {
     const totalItemsInCart = cart?.items?.reduce((acc, item) => acc + item.quantity, 0)
 
     return (
-        <header ref={headerRef} className={cn("text-white p-4 relative", isMenuOpen && "z-[60] pointer-events-auto")}>
+        <header ref={headerRef} className={cn("text-foreground p-4 relative", isMenuOpen && "z-[60] pointer-events-auto")}>
             <div className="container mx-auto">
                 <div className="flex justify-between lg:grid lg:grid-cols-3 items-center">
                     <NavigationList className="hidden lg:flex" />

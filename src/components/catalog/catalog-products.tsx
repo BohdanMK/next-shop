@@ -26,7 +26,7 @@ const CatalogProducts = ({ filters, blockTitle }: CatalogProductsProps) => {
   return (
     <>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-2xl font-bold text-foreground">
                 {blockTitle ?? t('defaultTitle')}
             </h2>
         </div>

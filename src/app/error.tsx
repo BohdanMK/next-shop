@@ -23,7 +23,7 @@ export default function GlobalError({
         <p className="text-sm">{error.message}</p>
         <button
           onClick={reset}
-          className="px-4 py-2 bg-black text-white rounded-md hover:opacity-80 transition-opacity"
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-80 transition-opacity"
         >
           {t('retry')}
         </button>
