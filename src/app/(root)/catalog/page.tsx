@@ -3,6 +3,7 @@ import { fetchProducts, type FetchProductsParams } from "@/services/product.serv
 import { fetchSubCategories } from "@/services/category.service"
 import { PRODUCTS_QUERY_KEY } from "@/hooks/queries/use-product"
 import { SUB_CATEGORIES_QUERY_KEY } from "@/hooks/queries/use-categories"
+import { ROUTES } from "@/config/routes"
 import BreadCrumbsList from "@/components/shared/bread-crumbs-list"
 import CatalogProducts from "@/components/catalog/catalog-products"
 
@@ -21,9 +22,9 @@ const CatalogPage = async ({ searchParams }: { searchParams: SearchParams }) => 
   }
 
   const bredCrumbsList = [
-    { name: 'Головна', href: '/' },
-    ...(params.name ? [{ name: params.name as string, href: `/catalog?categoryId=${params.categoryId}&name=${params.name}` }] : []),
-    ...(params.isOnSale ? [{ name: 'Акції', href: `/catalog?isOnSale=true` }] : []),
+    { name: 'Головна', href: ROUTES.home },
+    ...(params.name ? [{ name: params.name as string, href: ROUTES.catalogCategory(params.categoryId as string, params.name as string) }] : []),
+    ...(params.isOnSale ? [{ name: 'Акції', href: ROUTES.catalogOnSale }] : []),
   ]
 
   const queryClient = new QueryClient()

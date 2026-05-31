@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import type { FetchProductsParams } from "@/services/product.service"
 import { useSubCategories } from "@/hooks/queries/use-categories"
+import { ROUTES } from "@/config/routes"
 import { cn } from "@/lib/utils"
 
 interface CatalogSubCategoriesProps {
@@ -36,7 +37,7 @@ const CatalogSubCategories = ({ filters }: CatalogSubCategoriesProps) => {
                 variant="outline" size="sm"
                 asChild
             >
-                <Link href={`/catalog?categoryId=${filters.categoryId}&name=${filters.name}`}>
+                <Link href={ROUTES.catalogCategory(filters.categoryId, filters.name ?? '')}>
                    Всі
                 </Link>
             </Button>
@@ -50,7 +51,7 @@ const CatalogSubCategories = ({ filters }: CatalogSubCategoriesProps) => {
                     variant="outline" size="sm"
                     asChild
                 >
-                    <Link href={`/catalog?categoryId=${filters.categoryId}&name=${filters.name}&subCategoryId=${subCategory._id ?? subCategory.id}`}>
+                    <Link href={ROUTES.catalogSubCategory(filters.categoryId as string, filters.name ?? '', subCategory._id ?? subCategory.id ?? '')}>
                         {subCategory.title}
                     </Link>
                 </Button>

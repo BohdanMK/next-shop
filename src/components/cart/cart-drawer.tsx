@@ -9,8 +9,11 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
+import { ROUTES } from "@/config/routes"
+import Link from "next/link"
 import CloseBtn from "@/components/shared/close-btn"
 import CartItem from "@/components/cart/cart-item"
+import EmptyCart from "@/components/cart/empty-cart"
 import { useCart } from "@/hooks/queries/use-cart"
 
 interface CartDrawerProps {
@@ -35,7 +38,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 
         <div className="no-scrollbar overflow-y-auto px-4 py-4">
           {!cart?.items?.length ? (
-            <p className="text-2xl text-center text-foreground py-8">Кошик порожній</p>
+            <EmptyCart />
           ) : (
             <div className="flex flex-col gap-4">
               {cart.items.map((item) => (
@@ -65,12 +68,15 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
               <div>{cart ? cart.totalPrice + 100 : 0} грн</div>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
-          >
-            Оформити замовлення
-          </Button>
+            <Link href={ROUTES.checkout}>
+              <Button
+          
+                variant="outline"
+                className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
+              >
+                Оформити замовлення
+              </Button>
+            </Link>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

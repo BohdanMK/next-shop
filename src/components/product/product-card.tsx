@@ -37,12 +37,12 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
 
   return (
     <div className={cn(
-      "w-full max-w-[305px] bg-card rounded-[5px] overflow-hidden shadow-md/10 mb-2",
+      "w-full  bg-card rounded-[5px] overflow-hidden shadow-md/10 mb-2",
       fullWidth && "max-w-full !h-full"
     )}>
       <Link href={getProductUrl(product)}>
         <div className={cn(
-          "w-full max-w-[305px] max-h-[203px]",
+          "w-full  ",
           fullWidth && "max-w-full overflow-hidden"
         )}>
           <Image

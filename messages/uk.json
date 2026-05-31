@@ -1,0 +1,10 @@
+{
+  "validation": {
+    "nameRequired": "Введіть ім'я",
+    "phoneRequired": "Введіть номер телефону",
+    "streetRequired": "Введіть вулицю",
+    "houseRequired": "Введіть номер будинку",
+    "cityRequired": "Оберіть місто",
+    "agreePolicyRequired": "Необхідно погодитися з умовами"
+  }
+}

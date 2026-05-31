@@ -1,4 +1,5 @@
 import { buildQuery } from "@/lib/build-query"
+import { ROUTES } from "@/config/routes"
 import type { IProductDTO } from "@/types/dto/product.dto"
 
 export function getProductUrl(product: IProductDTO): string {
@@ -8,5 +9,5 @@ export function getProductUrl(product: IProductDTO): string {
     categoryName: product.categoryName,
     productName: product.title,
   })
-  return `/product/${id}${params}`
+  return `${ROUTES.product(id!)}${params}`
 }

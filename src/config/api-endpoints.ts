@@ -16,4 +16,7 @@ export const API_ENDPOINTS = {
     decrease: "/api/cart/item/decrease",
     deleteItem: "/api/cart/item/delete",
   },
+  orders: {
+    create: "/api/order/create",
+  },
 } as const

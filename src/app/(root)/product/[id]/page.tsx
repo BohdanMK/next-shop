@@ -1,6 +1,7 @@
 import { cache } from "react"
 import type { Metadata } from "next"
 import { fetchProduct } from "@/services/product.service"
+import { ROUTES } from "@/config/routes"
 import ProductPageContent from "@/components/product/product-page-content"
 import BreadCrumbsList from "@/components/shared/bread-crumbs-list"
 
@@ -30,9 +31,9 @@ const Product = async ({ params, searchParams }: ProductPageProps) => {
   const { categoryId, categoryName, productName } = await searchParams
 
   const breadcrumbs = [
-    { name: 'Головна', href: '/' },
+    { name: 'Головна', href: ROUTES.home },
     ...(categoryId && categoryName
-      ? [{ name: categoryName, href: `/catalog?categoryId=${categoryId}` }]
+      ? [{ name: categoryName, href: ROUTES.catalogCategory(categoryId, categoryName) }]
       : []
     ),
     ...(productName ? [{ name: productName }] : []),

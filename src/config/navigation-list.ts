@@ -1,14 +1,16 @@
+import { ROUTES } from "@/config/routes"
+
 export const NavigationConfigList = [
     {
         name: 'Про нас',
-        href: '/about-us',
+        href: ROUTES.aboutUs,
     },
     {
         name: 'Акції',
-        href: '/promotions',
+        href: ROUTES.promotions,
     },
     {
         name: 'Контакти',
-        href: '/contacts',
+        href: ROUTES.contacts,
     },
 ];
