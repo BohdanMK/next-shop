@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import { format } from "date-fns"
 import { uk } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
@@ -17,8 +18,10 @@ interface DatePickerInputProps {
     disabled?: boolean
 }
 
-const DatePickerInput = ({ value, onChange, placeholder = "Оберіть дату", className, disabled }: DatePickerInputProps) => {
+const DatePickerInput = ({ value, onChange, placeholder, className, disabled }: DatePickerInputProps) => {
+    const t = useTranslations('form')
     const [open, setOpen] = useState(false)
+    const resolvedPlaceholder = placeholder ?? t('selectDate')
 
     return (
         <Popover open={open} onOpenChange={disabled ? undefined : setOpen}>
@@ -29,7 +32,7 @@ const DatePickerInput = ({ value, onChange, placeholder = "Оберіть дат
                     className={cn(inputClass, "flex items-center justify-between gap-2 cursor-pointer", disabled && "opacity-50 cursor-not-allowed", className)}
                 >
                     <span className={cn(!value && "text-muted")}>
-                        {value ? format(value, "dd.MM.yyyy", { locale: uk }) : placeholder}
+                        {value ? format(value, "dd.MM.yyyy", { locale: uk }) : resolvedPlaceholder}
                     </span>
                     <CalendarIcon className="size-4 shrink-0 text-muted-foreground" />
                 </button>

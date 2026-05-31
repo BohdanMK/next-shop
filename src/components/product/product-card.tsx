@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
 import { InfoIcon } from "lucide-react"
@@ -22,9 +23,10 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
-
+  const t = useTranslations('product')
+  const tCommon = useTranslations('common')
   const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false)
-  const currency = product.price.currency === 'UAH' ? 'грн' : product.price.currency
+  const currency = product.price.currency === 'UAH' ? tCommon('currency') : product.price.currency
   const { mutate: addToCart } = useAddToCart()
 
   const handleAddToCart = () => {
@@ -76,12 +78,12 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
         </div>
 
         <div className="flex justify-between text-[14px] mb-[11px]">
-          <h6>Склад:</h6>
-          <h6>Вага — {product.weightGrams}г</h6>
+          <h6>{t('composition')}</h6>
+          <h6>{t('weight', { grams: product.weightGrams })}</h6>
         </div>
 
         <div className="flex items-center gap-2 mb-[25px]">
-          <h6 className="text-[14px]">Інгредієнти: {product.components?.length ?? 0}</h6>
+          <h6 className="text-[14px]">{t('ingredients', { count: product.components?.length ?? 0 })}</h6>
           {(product.components?.length ?? 0) > 0 && (
             <div className="relative">
                 <Tooltip>
@@ -120,7 +122,7 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
             className="rounded-[12px] text-[14px] px-[26px] py-[4px]"
             onClick={handleAddToCart}
           >
-            {product.ctaLabel ?? 'До кошика'}
+            {product.ctaLabel ?? t('addToCart')}
           </Button>
 
           {/* <ProductOptionsModal*/}

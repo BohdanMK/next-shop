@@ -31,6 +31,8 @@ const CheckOutForm = () => {
     const [mounted, setMounted] = useState(false)
     const { data: cart } = useCart()
     const t = useTranslations('validation')
+    const tC = useTranslations('checkout')
+    const tCommon = useTranslations('common')
     const schema = useMemo(() => createCheckOutSchema(t), [t])
 
     const { mutate: createOrder } = useCreateOrder()
@@ -67,24 +69,24 @@ const CheckOutForm = () => {
     }
 
     if (mounted && !cart?.items?.length) {
-        return <EmptyCart description="Поверніться до меню та додайте страви" />
+        return <EmptyCart description={tC('emptyCartDesc')} />
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-auto">
-            <h2 className="text-2xl font-bold mb-7">Оформити замовлення</h2>
-            <div className="w-full grid grid-cols-2 gap-7">
+            <h2 className="text-2xl font-bold mb-7">{tC('title')}</h2>
+            <div className="w-full grid sm:grid-cols-2 gap-7">
                 {/* left column */}
                 <div>
                     <div className="flex gap-4 mb-7">
                         <div>
-                            <InputGroup label="Ім'я">
-                                <Input placeholder="Ім'я" className={inputClass} {...register('name')} />
+                            <InputGroup label={tC('name')}>
+                                <Input placeholder={tC('name')} className={inputClass} {...register('name')} />
                             </InputGroup>
                             {errors.name && <p className="text-destructive text-xs mt-1">{errors.name.message}</p>}
                         </div>
                         <div>
-                            <InputGroup label="Телефон">
+                            <InputGroup label={tC('phone')}>
                                 <Controller
                                     name="phone"
                                     control={control}
@@ -104,7 +106,7 @@ const CheckOutForm = () => {
                     </div>
 
                     <div className="mb-7">
-                        <h4 className="text-xl font-bold mb-4">Доставка</h4>
+                        <h4 className="text-xl font-bold mb-4">{tC('delivery')}</h4>
                         <Controller
                             name="deliveryType"
                             control={control}
@@ -135,20 +137,20 @@ const CheckOutForm = () => {
                         {deliveryType === 'delivery' && (
                             <div className="grid grid-cols-2 gap-7 mt-4">
                                 <div>
-                                    <InputGroup label="Місто">
-                                        <Input placeholder="Місто" className={inputClass} {...register('cityId')} />
+                                    <InputGroup label={tC('city')}>
+                                        <Input placeholder={tC('city')} className={inputClass} {...register('cityId')} />
                                     </InputGroup>
                                     {errors.cityId && <p className="text-destructive text-xs mt-1">{errors.cityId.message}</p>}
                                 </div>
                                 <div>
-                                    <InputGroup label="Вулиця">
-                                        <Input placeholder="Вулиця" className={inputClass} {...register('street')} />
+                                    <InputGroup label={tC('street')}>
+                                        <Input placeholder={tC('street')} className={inputClass} {...register('street')} />
                                     </InputGroup>
                                     {errors.street && <p className="text-destructive text-xs mt-1">{errors.street.message}</p>}
                                 </div>
                                 <div>
-                                    <InputGroup label="Будинок">
-                                        <Input placeholder="Будинок" className={inputClass} {...register('house')} />
+                                    <InputGroup label={tC('house')}>
+                                        <Input placeholder={tC('house')} className={inputClass} {...register('house')} />
                                     </InputGroup>
                                     {errors.house && <p className="text-destructive text-xs mt-1">{errors.house.message}</p>}
                                 </div>
@@ -186,7 +188,7 @@ const CheckOutForm = () => {
                     </div>
 
                     <div className="w-full flex gap-4 mb-7">
-                        <InputGroup label="Дата" className="w-full">
+                        <InputGroup label={tC('date')} className="w-full">
                             <Controller
                                 name="date"
                                 control={control}
@@ -199,8 +201,8 @@ const CheckOutForm = () => {
                                 )}
                             />
                         </InputGroup>
-                        <InputGroup label="Час" className="w-full">
-                            <Input type="time" className={cn(inputClass, isAsap && "opacity-50 cursor-not-allowed")} disabled={isAsap} {...register('time')} />
+                        <InputGroup label={tC('time')} className="w-full">
+                            <Input type="time" className={cn(inputClass, isAsap && "opacity-50! bg-white! cursor-not-allowed")} disabled={isAsap} {...register('time')} />
                         </InputGroup>
                     </div>
 
@@ -218,48 +220,48 @@ const CheckOutForm = () => {
                             )}
                         />
                         <FieldLabel htmlFor="birthday-checkbox" className="cursor-pointer">
-                            Хочу знижку на день народження
+                            {tC('birthdayDiscount')}
                         </FieldLabel>
                     </Field>
                     <div className="text-xs mt-2">
-                        Знижка надається за умови надання документу що підтверждує що в вас день народження
+                        {tC('birthdayDiscountDesc')}
                     </div>
                 </div>
 
                 {/* right column */}
                 <div>
-                    <h2>Ваше замовлення</h2>
+                    <h2>{tC('yourOrder')}</h2>
                     <div>
                         <div className="text-[16px]">
                             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
-                                <div>Сума</div>
-                                <div>{mounted ? (cart?.totalPrice ?? 0) : 0} грн</div>
+                                <div>{tC('sum')}</div>
+                                <div>{mounted ? (cart?.totalPrice ?? 0) : 0} {tCommon('currency')}</div>
                             </div>
                             <div className="flex justify-between items-end border-b border-dashed pb-2 mb-2">
                                 <div>
-                                    <span>Доставка</span>
+                                    <span>{tC('delivery')}</span>
                                     <span className="max-w-[150px] block text-foreground text-[12px]">
-                                        До безкоштовної доставки залишилось 0 грн
+                                        {tC('freeDeliveryLeft')}
                                     </span>
                                 </div>
-                                <div>100 грн</div>
+                                <div>100 {tCommon('currency')}</div>
                             </div>
                             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
-                                <div>Разом</div>
-                                <div>{mounted ? (cart ? cart.totalPrice + 100 : 0) : 0} грн</div>
+                                <div>{tC('total')}</div>
+                                <div>{mounted ? (cart ? cart.totalPrice + 100 : 0) : 0} {tCommon('currency')}</div>
                             </div>
                         </div>
 
-                        <InputGroup label="Коментар до замовлення" className="mt-7 w-full">
+                        <InputGroup label={tC('comment')} className="mt-7 w-full">
                             <Textarea
-                                placeholder="Наприклад: зателефонуйте за 30 хв до доставки"
+                                placeholder={tC('commentPlaceholder')}
                                 className={inputClass}
                                 {...register('comment')}
                             />
                         </InputGroup>
 
                         <div className="flex gap-2 items-center my-4">
-                            <span className="text-sm font-semibold me-2">К-сть персон</span>
+                            <span className="text-sm font-semibold me-2">{tC('personsCount')}</span>
                             <Button
                                 type="button"
                                 variant="outline"
@@ -298,7 +300,7 @@ const CheckOutForm = () => {
                                 )}
                             />
                             <FieldLabel htmlFor="agree-policy" className="cursor-pointer">
-                                Згоден з політикою конфедеційности
+                                {tC('agreePolicy')}
                             </FieldLabel>
                         </Field>
                         {errors.agreePolicy && (
@@ -309,7 +311,7 @@ const CheckOutForm = () => {
                             className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-[45px] leading-[100%]"
                             onClick={handleSubmit(onSubmit)}
                         >
-                            Оформити замовлення
+                            {tC('submit')}
                         </Button>
                     </div>
                 </div>

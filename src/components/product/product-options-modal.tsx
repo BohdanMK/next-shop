@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { X } from "lucide-react"
 import { getImageUrl } from "@/lib/get-image-url"
@@ -27,6 +28,7 @@ export default function ProductOptionsModal({
   const totalPrice = product.price.amount + selectedOptions.reduce((sum, o) => sum + (o.extraPrice?.amount ?? 0), 0)
 
   const { mutate: addToCart, isPending } = useAddToCart()
+  const t = useTranslations('product')
 
   const handleAddToCart = () => {
     addToCart({
@@ -100,7 +102,7 @@ export default function ProductOptionsModal({
                     </span>
                 </div>
                 <Button variant="outline" onClick={handleAddToCart} disabled={isPending}>
-                    {isPending ? "Додається..." : "Додати до кошика"}
+                    {isPending ? t('adding') : t('addToCartModal')}
                 </Button>
             </div>
           </DialogFooter>

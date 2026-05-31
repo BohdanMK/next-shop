@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { fetchProducts, type FetchProductsParams } from "@/services/product.service"
 import { fetchSubCategories } from "@/services/category.service"
@@ -11,6 +12,8 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 const CatalogPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const params = await searchParams
+  const t = await getTranslations('common')
+  const tCatalog = await getTranslations('catalog')
 
   const filters: FetchProductsParams = {
     isOnSale: params.isOnSale === 'true',
@@ -22,9 +25,9 @@ const CatalogPage = async ({ searchParams }: { searchParams: SearchParams }) => 
   }
 
   const bredCrumbsList = [
-    { name: 'Головна', href: ROUTES.home },
+    { name: t('home'), href: ROUTES.home },
     ...(params.name ? [{ name: params.name as string, href: ROUTES.catalogCategory(params.categoryId as string, params.name as string) }] : []),
-    ...(params.isOnSale ? [{ name: 'Акції', href: ROUTES.catalogOnSale }] : []),
+    ...(params.isOnSale ? [{ name: tCatalog('promotions'), href: ROUTES.catalogOnSale }] : []),
   ]
 
   const queryClient = new QueryClient()
@@ -55,7 +58,7 @@ const CatalogPage = async ({ searchParams }: { searchParams: SearchParams }) => 
         </div>
         <CatalogProducts
           filters={filters}
-          blockTitle={params.name as string ?? 'Акції'}
+          blockTitle={params.name as string ?? tCatalog('promotions')}
         />
       </div>
     </HydrationBoundary>

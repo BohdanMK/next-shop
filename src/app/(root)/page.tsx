@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import SliderBlock from "@/components/home-slider/slider-block"
 import { fetchProducts } from "@/services/product.service"
@@ -6,6 +7,7 @@ import ProductsSlider from "@/components/product/products-slider-wrapper"
 
 const Home = async () => {
   const queryClient = new QueryClient()
+  const t = await getTranslations('catalog')
 
   await Promise.all([
     queryClient.prefetchQuery({
@@ -18,7 +20,6 @@ const Home = async () => {
     }),
   ])
 
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
@@ -29,13 +30,13 @@ const Home = async () => {
           <ProductsSlider
             params={{ isOnSale: true }}
             showAllHref="/catalog?isOnSale=true"
-            blockTitle="Акції"
+            blockTitle={t('promotions')}
           />
         </div>
         <div>
           <ProductsSlider
             params={{ categoryId: '69349b20ec4c5c7dfa00254d' }}
-            blockTitle="Піци"
+            blockTitle={t('pizzas')}
           />
         </div>
       </div>

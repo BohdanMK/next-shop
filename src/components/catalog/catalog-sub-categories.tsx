@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import type { FetchProductsParams } from "@/services/product.service"
 import { useSubCategories } from "@/hooks/queries/use-categories"
@@ -12,6 +13,7 @@ interface CatalogSubCategoriesProps {
 }
 
 const CatalogSubCategories = ({ filters }: CatalogSubCategoriesProps) => {
+    const t = useTranslations('catalog')
     if (filters.categoryId === undefined) return null
     const { data: subCategories, isPending, isError } = useSubCategories(filters.categoryId)
 
@@ -38,7 +40,7 @@ const CatalogSubCategories = ({ filters }: CatalogSubCategoriesProps) => {
                 asChild
             >
                 <Link href={ROUTES.catalogCategory(filters.categoryId, filters.name ?? '')}>
-                   Всі
+                   {t('all')}
                 </Link>
             </Button>
             {subCategories.map((subCategory) => (

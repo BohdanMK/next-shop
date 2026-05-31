@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
+import { useTranslations } from "next-intl"
 import { ROUTES } from "@/config/routes"
 import Link from "next/link"
 import CloseBtn from "@/components/shared/close-btn"
@@ -23,12 +24,14 @@ interface CartDrawerProps {
 
 const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
   const { data: cart } = useCart()
+  const t = useTranslations('cart')
+  const tCommon = useTranslations('common')
 
   return (
     <Drawer direction="right" open={open} onClose={onClose}>
       <DrawerContent className="rounded-none!">
         <DrawerHeader className="flex justify-between items-center relative border-b border-border">
-          <DrawerTitle className="text-2xl text-primary-foreground">Кошик</DrawerTitle>
+          <DrawerTitle className="text-2xl text-primary-foreground">{t('title')}</DrawerTitle>
           {onClose && (
             <DrawerClose asChild>
               <CloseBtn onClose={onClose} />
@@ -51,21 +54,21 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
         <DrawerFooter className="border-t border-border">
           <div className="text-[16px]">
             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
-              <div>Сума</div>
-              <div>{cart?.totalPrice ?? 0} грн</div>
+              <div>{t('sum')}</div>
+              <div>{cart?.totalPrice ?? 0} {tCommon('currency')}</div>
             </div>
             <div className="flex justify-between items-end border-b border-dashed pb-2 mb-2">
               <div>
-                <span>Доставка</span>
+                <span>{t('delivery')}</span>
                 <span className="max-w-[150px] block text-foreground text-[12px]">
-                  До безкоштовної доставки залишилось 0 грн
+                  {t('freeDeliveryLeft')}
                 </span>
               </div>
-              <div>100 грн</div>
+              <div>{t('deliveryCost')}</div>
             </div>
             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
-              <div>Разом</div>
-              <div>{cart ? cart.totalPrice + 100 : 0} грн</div>
+              <div>{t('total')}</div>
+              <div>{cart ? cart.totalPrice + 100 : 0} {tCommon('currency')}</div>
             </div>
           </div>
             <Link href={ROUTES.checkout}>
@@ -74,7 +77,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
                 variant="outline"
                 className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
               >
-                Оформити замовлення
+                {t('toCheckout')}
               </Button>
             </Link>
         </DrawerFooter>

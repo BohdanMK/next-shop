@@ -6,5 +6,91 @@
     "houseRequired": "Введіть номер будинку",
     "cityRequired": "Оберіть місто",
     "agreePolicyRequired": "Необхідно погодитися з умовами"
+  },
+  "common": {
+    "currency": "грн",
+    "home": "Головна"
+  },
+  "cart": {
+    "title": "Кошик",
+    "sum": "Сума",
+    "delivery": "Доставка",
+    "freeDeliveryLeft": "До безкоштовної доставки залишилось 0 грн",
+    "deliveryCost": "100 грн",
+    "total": "Разом",
+    "toCheckout": "Оформити замовлення"
+  },
+  "emptyCart": {
+    "title": "Кошик порожній",
+    "description": "Додайте страви щоб оформити замовлення",
+    "checkoutDescription": "Поверніться до меню та додайте страви",
+    "action": "Перейти до меню"
+  },
+  "checkout": {
+    "title": "Оформити замовлення",
+    "breadcrumb": "Оформити замовлення",
+    "name": "Ім'я",
+    "phone": "Телефон",
+    "delivery": "Доставка",
+    "city": "Місто",
+    "street": "Вулиця",
+    "house": "Будинок",
+    "date": "Дата",
+    "time": "Час",
+    "birthdayDiscount": "Хочу знижку на день народження",
+    "birthdayDiscountDesc": "Знижка надається за умови надання документу що підтверджує що в вас день народження",
+    "yourOrder": "Ваше замовлення",
+    "sum": "Сума",
+    "total": "Разом",
+    "freeDeliveryLeft": "До безкоштовної доставки залишилось 0 грн",
+    "comment": "Коментар до замовлення",
+    "commentPlaceholder": "Наприклад: зателефонуйте за 30 хв до доставки",
+    "personsCount": "К-сть персон",
+    "agreePolicy": "Згоден з політикою конфедеційности",
+    "submit": "Оформити замовлення",
+    "emptyCartDesc": "Поверніться до меню та додайте страви"
+  },
+  "product": {
+    "composition": "Склад:",
+    "weight": "Вага — {grams}г",
+    "ingredients": "Інгредієнти: {count}",
+    "addToCart": "До кошика",
+    "adding": "Додається...",
+    "addToCartModal": "Додати до кошика"
+  },
+  "catalog": {
+    "all": "Всі",
+    "defaultTitle": "Гарячі страви",
+    "promotions": "Акції",
+    "pizzas": "Піци"
+  },
+  "slider": {
+    "showAll": "Показати всі",
+    "prevSlide": "Попередній слайд",
+    "nextSlide": "Наступний слайд",
+    "slide": "Слайд {n}"
+  },
+  "footer": {
+    "pages": "Сторінки",
+    "catalog": "Каталог",
+    "scheduleTitle": "Прийом замовлень:",
+    "deliverySchedule": "На доставку з 10:00 до 20:45",
+    "pickupSchedule": "На самовивіз з 10:00 до 20:45",
+    "noWeekends": "Без вихідних"
+  },
+  "notFound": {
+    "title": "Сторінку не знайдено",
+    "backHome": "На головну"
+  },
+  "errors": {
+    "critical": "Критична помилка",
+    "somethingWrong": "Щось пішло не так",
+    "retry": "Спробувати знову"
+  },
+  "form": {
+    "selectDate": "Оберіть дату"
+  },
+  "location": {
+    "selectCity": "Оберіть місто"
   }
 }

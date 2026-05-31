@@ -1,3 +1,6 @@
+'use client'
+
+import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 interface SliderControlsProps {
@@ -10,12 +13,14 @@ interface SliderControlsProps {
 }
 
 export function SliderControls({ current, total, onPrev, onNext, onDotClick, className }: SliderControlsProps) {
+  const t = useTranslations('slider')
+
   return (
     <div className={cn("flex items-center justify-between mt-3", className)}>
       <div className="flex items-center gap-1">
         <button
           onClick={onPrev}
-          aria-label="Попередній слайд"
+          aria-label={t('prevSlide')}
           className={cn(
             "p-1 rounded-full hover:bg-muted transition-colors cursor-pointer",
             current === 0 && "opacity-50 cursor-not-allowed"
@@ -25,7 +30,7 @@ export function SliderControls({ current, total, onPrev, onNext, onDotClick, cla
         </button>
         <button
           onClick={onNext}
-          aria-label="Наступний слайд"
+          aria-label={t('nextSlide')}
           className={cn(
             "p-1 rounded-full hover:bg-muted transition-colors cursor-pointer",
             current === total - 1 && "opacity-50 cursor-not-allowed"
@@ -40,7 +45,7 @@ export function SliderControls({ current, total, onPrev, onNext, onDotClick, cla
           <button
             key={i}
             onClick={() => onDotClick(i)}
-            aria-label={`Слайд ${i + 1}`}
+            aria-label={t('slide', { n: i + 1 })}
             className={cn(
               "h-2 rounded-full transition-all duration-300",
               i === current

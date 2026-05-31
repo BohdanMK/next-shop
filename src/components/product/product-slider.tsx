@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link"
 import { useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -23,6 +24,7 @@ const getSpv = (swiper: SwiperType): number => {
 }
 
 const ProductSlider = ({ products, onAddToCart, showAllHref, blockTitle }: ProductSliderProps) => {
+  const t = useTranslations('slider')
   const [current, setCurrent] = useState(0)
   const [spv, setSpv] = useState(1)
   const swiperRef = useRef<SwiperType | undefined>(undefined)
@@ -47,7 +49,7 @@ const ProductSlider = ({ products, onAddToCart, showAllHref, blockTitle }: Produ
             variant="outline"
             asChild
           >
-            <Link href={showAllHref}>Показати всі</Link>
+            <Link href={showAllHref}>{t('showAll')}</Link>
           </Button>
         )}
       </div>
