@@ -13,9 +13,10 @@ export function useCategories() {
 
 export const SUB_CATEGORIES_QUERY_KEY = (id: string | number) => ["sub_categories", id] as const
 
-export function useSubCategories(id: number | string) {
+export function useSubCategories(id: number | string | undefined) {
   return useQuery({
-    queryKey: SUB_CATEGORIES_QUERY_KEY(id),
-    queryFn: () => fetchSubCategories(id),
+    queryKey: SUB_CATEGORIES_QUERY_KEY(id ?? ''),
+    queryFn: () => fetchSubCategories(id!),
+    enabled: id !== undefined,
   })
 }

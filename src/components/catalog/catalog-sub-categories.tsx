@@ -14,8 +14,9 @@ interface CatalogSubCategoriesProps {
 
 const CatalogSubCategories = ({ filters }: CatalogSubCategoriesProps) => {
     const t = useTranslations('catalog')
-    if (filters.categoryId === undefined) return null
     const { data: subCategories, isPending, isError } = useSubCategories(filters.categoryId)
+
+    if (filters.categoryId === undefined) return null
 
     if (isPending) {
         return (

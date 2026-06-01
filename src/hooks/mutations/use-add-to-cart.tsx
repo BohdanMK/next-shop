@@ -14,7 +14,7 @@ export function useAddToCart() {
       const addedItem = data?.items?.find((item) => item.productId === variables.productId)
       if (addedItem) {
         toast.success('', {
-          id: "add-to-cart",
+          id: "toast-add-to-cart-success",
           icon: null,
           position: "bottom-right",
           description: (
@@ -29,11 +29,11 @@ export function useAddToCart() {
           ),
         })
       } else {
-        toast.error("Не вдалось додати товар")
+        toast.error("Не вдалось додати товар", { id: "toast-add-to-cart-error" })
       }
     },
     onError: () => {
-      toast.error("Не вдалось додати товар")
+      toast.error("Не вдалось додати товар", { id: "toast-add-to-cart-error" })
     },
   })
 }
@@ -47,7 +47,7 @@ export function useIncreaseCartItem() {
       queryClient.invalidateQueries({ queryKey: ["cart"] })
     },
     onError: () => {
-      toast.error("Помилка оновлення кількості")
+      toast.error("Помилка оновлення кількості", { id: "toast-cart-update-error" })
     },
   })
 }
@@ -61,7 +61,7 @@ export function useDecreaseCartItem() {
       queryClient.invalidateQueries({ queryKey: ["cart"] })
     },
     onError: () => {
-      toast.error("Помилка оновлення кількості")
+      toast.error("Помилка оновлення кількості", { id: "toast-cart-update-error" })
     },
   })
 }
@@ -75,7 +75,7 @@ export function useDeleteCartItem() {
       queryClient.invalidateQueries({ queryKey: ["cart"] })
     },
     onError: () => {
-      toast.error("Не вдалось видалити товар")
+      toast.error("Не вдалось видалити товар", { id: "toast-cart-delete-error" })
     },
   })
 }

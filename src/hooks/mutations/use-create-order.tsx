@@ -13,13 +13,13 @@ export function useCreateOrder() {
     mutationFn: (body: OrderDTO) => createOrder(body),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["cart"] })
-      toast.success("Замовлення створено")
+      toast.success("Замовлення створено", { id: "toast-order-success" })
       if (data._id) {
         router.push(ROUTES.checkoutSuccess(data._id))
       }
     },
     onError: () => {
-      toast.error("Помилка створення замовлення")
+      toast.error("Помилка створення замовлення", { id: "toast-order-error" })
     },
   })
 }

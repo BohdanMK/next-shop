@@ -38,8 +38,8 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
   }
 
   return (
-    <div className={cn(
-      "w-full  bg-card rounded-[5px] overflow-hidden shadow-md/10 mb-2",
+    <div data-testid="product-card" className={cn(
+      "w-full max-w-full sm:max-w-[305px]   bg-card rounded-[5px] overflow-hidden shadow-md/10 mb-2",
       fullWidth && "max-w-full !h-full"
     )}>
       <Link href={getProductUrl(product)}>
@@ -119,6 +119,7 @@ const ProductCard = ({ product, fullWidth }: ProductCardProps) => {
         )} */}
         <div className="flex justify-between px-[0px] items-end">
           <Button
+            data-testid="product-add-to-cart"
             className="rounded-[12px] text-[14px] px-[26px] py-[4px]"
             onClick={handleAddToCart}
           >

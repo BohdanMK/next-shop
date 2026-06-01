@@ -41,6 +41,7 @@ export default function ProductOptionsModal({
   return (
     <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose() }}>
       <DialogContent
+        data-testid="product-options-modal"
         showCloseButton={false}
         className="max-w-[305px] gap-0 p-0 bg-card rounded-[8px] overflow-hidden"
       >
@@ -95,13 +96,13 @@ export default function ProductOptionsModal({
         <DialogFooter>
             <div className="w-full flex justify-between items-center px-3 pb-5 py-2">
 
-                <div>
+                <div data-testid="product-options-total">
                     <span className="text-[20px] font-bold">{totalPrice} </span>
                     <span className="font-medium text-[12px]">
                         {product.price.currency}
                     </span>
                 </div>
-                <Button variant="outline" onClick={handleAddToCart} disabled={isPending}>
+                <Button data-testid="product-options-add-to-cart" variant="outline" onClick={handleAddToCart} disabled={isPending}>
                     {isPending ? t('adding') : t('addToCartModal')}
                 </Button>
             </div>

@@ -16,7 +16,7 @@ const CatalogProducts = ({ filters, blockTitle }: CatalogProductsProps) => {
   const { data: products, isLoading } = useProducts(filters)
 
   if (isLoading) return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 ">
       {Array.from({ length: 6 }).map((_, i) => (
         <ProductCardSkeleton key={i} />
       ))}
@@ -33,7 +33,7 @@ const CatalogProducts = ({ filters, blockTitle }: CatalogProductsProps) => {
         <div className="mb-4">
             <CatalogSubCategories filters={filters} />
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-3 ">
         {products?.items.map(product => (
             <ProductCard key={product._id ?? product.id} product={product} />
         ))}

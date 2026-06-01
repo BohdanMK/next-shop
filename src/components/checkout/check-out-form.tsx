@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 import { inputClass, optionLabelClass, optionLabelLikeBtnClass } from "@/components/form/styleConfig"
 import { DELIVERY_OPTIONS, DELIVERY_TIME_OPTIONS } from "@/config/checkout"
 import { useCart } from "@/hooks/queries/use-cart"
-import { createCheckOutSchema, type CheckOutFormData } from "@/shema/zod"
+import { createCheckOutSchema, type CheckOutFormData } from "@/schema/zod"
 import { useCreateOrder } from "@/hooks/mutations/use-create-order"
 
 const getTimePlus90min = () => {
@@ -73,7 +73,7 @@ const CheckOutForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-auto">
+        <form data-testid="checkout-form" onSubmit={handleSubmit(onSubmit)} className="w-full mx-auto">
             <h2 className="text-2xl font-bold mb-7">{tC('title')}</h2>
             <div className="w-full grid sm:grid-cols-2 gap-7">
                 {/* left column */}
@@ -81,9 +81,9 @@ const CheckOutForm = () => {
                     <div className="flex gap-4 mb-7">
                         <div>
                             <InputGroup label={tC('name')}>
-                                <Input placeholder={tC('name')} className={inputClass} {...register('name')} />
+                                <Input data-testid="checkout-name-input" placeholder={tC('name')} className={inputClass} {...register('name')} />
                             </InputGroup>
-                            {errors.name && <p className="text-destructive text-xs mt-1">{errors.name.message}</p>}
+                            {errors.name && <p data-testid="checkout-error-name" className="text-destructive text-xs mt-1">{errors.name.message}</p>}
                         </div>
                         <div>
                             <InputGroup label={tC('phone')}>
@@ -92,6 +92,7 @@ const CheckOutForm = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <IMaskInput
+                                            data-testid="checkout-phone-input"
                                             mask="+{38} 000 000 0000"
                                             placeholder="+ 380 XX XXX XXXX"
                                             className={inputClass}
@@ -101,7 +102,7 @@ const CheckOutForm = () => {
                                     )}
                                 />
                             </InputGroup>
-                            {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone.message}</p>}
+                            {errors.phone && <p data-testid="checkout-error-phone" className="text-destructive text-xs mt-1">{errors.phone.message}</p>}
                         </div>
                     </div>
 
@@ -112,6 +113,7 @@ const CheckOutForm = () => {
                             control={control}
                             render={({ field }) => (
                                 <RadioGroup
+                                    data-testid="checkout-delivery-type"
                                     value={field.value}
                                     onValueChange={field.onChange}
                                     className="flex flex-col gap-2"
@@ -138,21 +140,21 @@ const CheckOutForm = () => {
                             <div className="grid grid-cols-2 gap-7 mt-4">
                                 <div>
                                     <InputGroup label={tC('city')}>
-                                        <Input placeholder={tC('city')} className={inputClass} {...register('cityId')} />
+                                        <Input data-testid="checkout-city-input" placeholder={tC('city')} className={inputClass} {...register('cityId')} />
                                     </InputGroup>
-                                    {errors.cityId && <p className="text-destructive text-xs mt-1">{errors.cityId.message}</p>}
+                                    {errors.cityId && <p data-testid="checkout-error-city" className="text-destructive text-xs mt-1">{errors.cityId.message}</p>}
                                 </div>
                                 <div>
                                     <InputGroup label={tC('street')}>
-                                        <Input placeholder={tC('street')} className={inputClass} {...register('street')} />
+                                        <Input data-testid="checkout-street-input" placeholder={tC('street')} className={inputClass} {...register('street')} />
                                     </InputGroup>
-                                    {errors.street && <p className="text-destructive text-xs mt-1">{errors.street.message}</p>}
+                                    {errors.street && <p data-testid="checkout-error-street" className="text-destructive text-xs mt-1">{errors.street.message}</p>}
                                 </div>
                                 <div>
                                     <InputGroup label={tC('house')}>
-                                        <Input placeholder={tC('house')} className={inputClass} {...register('house')} />
+                                        <Input data-testid="checkout-house-input" placeholder={tC('house')} className={inputClass} {...register('house')} />
                                     </InputGroup>
-                                    {errors.house && <p className="text-destructive text-xs mt-1">{errors.house.message}</p>}
+                                    {errors.house && <p data-testid="checkout-error-house" className="text-destructive text-xs mt-1">{errors.house.message}</p>}
                                 </div>
                             </div>
                         )}
@@ -164,6 +166,7 @@ const CheckOutForm = () => {
                             control={control}
                             render={({ field }) => (
                                 <RadioGroup
+                                    data-testid="checkout-delivery-time"
                                     value={field.value}
                                     onValueChange={field.onChange}
                                     className="w-full flex gap-2"
@@ -202,7 +205,7 @@ const CheckOutForm = () => {
                             />
                         </InputGroup>
                         <InputGroup label={tC('time')} className="w-full">
-                            <Input type="time" className={cn(inputClass, isAsap && "opacity-50! bg-white! cursor-not-allowed")} disabled={isAsap} {...register('time')} />
+                            <Input data-testid="checkout-time-input" type="time" className={cn(inputClass, isAsap && "opacity-50! bg-white! cursor-not-allowed")} disabled={isAsap} {...register('time')} />
                         </InputGroup>
                     </div>
 
@@ -248,12 +251,13 @@ const CheckOutForm = () => {
                             </div>
                             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
                                 <div>{tC('total')}</div>
-                                <div>{mounted ? (cart ? cart.totalPrice + 100 : 0) : 0} {tCommon('currency')}</div>
+                                <div data-testid="checkout-total">{mounted ? (cart ? cart.totalPrice + 100 : 0) : 0} {tCommon('currency')}</div>
                             </div>
                         </div>
 
                         <InputGroup label={tC('comment')} className="mt-7 w-full">
                             <Textarea
+                                data-testid="checkout-comment"
                                 placeholder={tC('commentPlaceholder')}
                                 className={inputClass}
                                 {...register('comment')}
@@ -263,6 +267,7 @@ const CheckOutForm = () => {
                         <div className="flex gap-2 items-center my-4">
                             <span className="text-sm font-semibold me-2">{tC('personsCount')}</span>
                             <Button
+                                data-testid="checkout-persons-decrease"
                                 type="button"
                                 variant="outline"
                                 className="w-[23px] h-[23px] bg-card hover:bg-primary border-y-0 border-x border-x-primary rounded-[5px]"
@@ -271,12 +276,14 @@ const CheckOutForm = () => {
                                 <Minus className="size-4" />
                             </Button>
                             <Input
+                                data-testid="checkout-persons-count"
                                 type="number"
                                 className="p-0 text-center max-w-[50px] border-0 outline-none shadow-none focus-visible:ring-0 focus-visible:border-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 value={valuePerson}
                                 readOnly
                             />
                             <Button
+                                data-testid="checkout-persons-increase"
                                 type="button"
                                 variant="outline"
                                 className="w-[23px] h-[23px] bg-card hover:bg-primary border-y-0 border-x border-x-primary rounded-[5px]"
@@ -292,6 +299,7 @@ const CheckOutForm = () => {
                                 control={control}
                                 render={({ field }) => (
                                     <Checkbox
+                                        data-testid="checkout-agree-policy"
                                         id="agree-policy"
                                         checked={field.value}
                                         onCheckedChange={field.onChange}
@@ -304,10 +312,11 @@ const CheckOutForm = () => {
                             </FieldLabel>
                         </Field>
                         {errors.agreePolicy && (
-                            <p className="text-destructive text-xs mb-2">{errors.agreePolicy.message}</p>
+                            <p data-testid="checkout-error-policy" className="text-destructive text-xs mb-2">{errors.agreePolicy.message}</p>
                         )}
 
                         <Button
+                            data-testid="checkout-submit"
                             className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-[45px] leading-[100%]"
                             onClick={handleSubmit(onSubmit)}
                         >

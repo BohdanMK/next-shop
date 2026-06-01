@@ -29,7 +29,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 
   return (
     <Drawer direction="right" open={open} onClose={onClose}>
-      <DrawerContent className="rounded-none!">
+      <DrawerContent data-testid="cart-drawer" className="rounded-none!">
         <DrawerHeader className="flex justify-between items-center relative border-b border-border">
           <DrawerTitle className="text-2xl text-foreground">{t('title')}</DrawerTitle>
           {onClose && (
@@ -43,7 +43,7 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
           {!cart?.items?.length ? (
             <EmptyCart />
           ) : (
-            <div className="flex flex-col gap-4">
+            <div data-testid="cart-item-list" className="flex flex-col gap-4">
               {cart.items.map((item) => (
                 <CartItem key={item._id} item={item} />
               ))}
@@ -68,12 +68,12 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
             </div>
             <div className="flex justify-between items-center border-b border-dashed pb-2 mb-2">
               <div>{t('total')}</div>
-              <div>{cart ? cart.totalPrice + 100 : 0} {tCommon('currency')}</div>
+              <div data-testid="cart-total">{cart ? cart.totalPrice + 100 : 0} {tCommon('currency')}</div>
             </div>
           </div>
-            <Link href={ROUTES.checkout}>
+            <Link href={ROUTES.checkout} onClick={onClose}>
               <Button
-
+                data-testid="cart-checkout-btn"
                 variant="outline"
                 className="w-full h-fit py-[20px] font-semibold text-[16px] rounded-lg leading-[100%]"
               >

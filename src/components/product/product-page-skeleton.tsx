@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton"
 
 const ProductPageSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2  gap-8">
     <Skeleton className="w-full aspect-square rounded-[5px]" />
 
     <div className="flex flex-col gap-4">

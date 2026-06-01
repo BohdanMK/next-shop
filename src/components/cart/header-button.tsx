@@ -24,6 +24,7 @@ const CartButton = ({ count, className }: ICartButtonProps) => {
         <>
             <div className={cn("relative", className)}>
                 <Button
+                    data-testid="cart-open-btn"
                     variant="ghost" size="icon"
                     onClick={handleOpen}
                 >
@@ -31,7 +32,7 @@ const CartButton = ({ count, className }: ICartButtonProps) => {
 
                 </Button>
                 {count > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full size-4 flex items-center justify-center">
+                    <span data-testid="cart-count-badge" className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full size-4 flex items-center justify-center">
                         {count > 99 ? "99+" : count}
 
                     </span>

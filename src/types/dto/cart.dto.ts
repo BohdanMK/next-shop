@@ -14,6 +14,7 @@ export interface CartItemOptions {
 export interface CartItemDTO {
     _id?: string;
     productId: string;
+    itemPrice: number;
     slug?: string;
     title: string;
     image: ImageDTO;
